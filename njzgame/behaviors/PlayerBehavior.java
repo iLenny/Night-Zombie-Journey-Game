@@ -3,6 +3,7 @@ package njzgame.behaviors;
 import njzgame.interfaces.Behavior;
 import njzgame.interfaces.Direction;
 import njzgame.settings.Controller;
+import njzgame.tools.Debug;
 import njzgame.Character;
 
 /*
@@ -14,11 +15,18 @@ import njzgame.Character;
 public class PlayerBehavior implements Behavior{
 	private Controller controller = Controller.getInstance();
 	private Character player;
+	private int rightScale = 1;
+	private int leftScale = -1;
 	
 	// BEHAVIORS:
 	private Behavior attackBehavior;
 	private Behavior walkBehavior;
 	private Behavior jumpBehavior;
+	
+	//FLAGS
+	private boolean walking = false;
+	
+	
 	
 	
 	
@@ -33,30 +41,39 @@ public class PlayerBehavior implements Behavior{
 	
 	@Override
 	public void performBehavior() {
+		// Stand-Sprite
+		if(!walking) {
+			player.getCharacterView().setViewport(player.getStandingSprites().getSpriteBlock());
+		}
+		
+		
+		
 		// RESPOND TO MOVE-RIGHT-PRESSED
 		if(controller.isMoveRightKeyPressed()) {
+			walking = true;
 			if (walkBehavior instanceof Direction) {				
 				((Direction)walkBehavior).setDirection(Direction.RIGHT);
 			}			
 			walkBehavior.performBehavior();
+			doWalkSprites();
+			player.getCharacterView().setScaleX(rightScale);
 			
-			// DEBUGGING:
-			System.out.println(
-					"FROM PlayerBehavior: (Character) " + player.getName() +
-				    " moving RIGHT X-AXIS: "  + player.getTranslateX());
 		}
 		
 		// RESPOND TO MOVE-LEFT-PRESSED
 		else if(controller.isMoveLeftKeyPressed()) {
+			walking = true;
 			if (walkBehavior instanceof Direction) {
 				((Direction)walkBehavior).setDirection(Direction.LEFT);
 			}
 			walkBehavior.performBehavior();
+			doWalkSprites();
+			player.getCharacterView().setScaleX(leftScale);
 			
-			// DEBUGGING:
-			System.out.println(
-					"FROM PlayerBehavior: (Character) " + player.getName() +
-				    " moving LEFT X-AXIS: "  + player.getTranslateX());
+		}
+		else {
+			walking = false;
+			player.getStandingSprites().reset();
 		}
 		
 		// RESPOND TO JUMP-KEY-PRESSED
@@ -68,5 +85,31 @@ public class PlayerBehavior implements Behavior{
 		if(controller.isAttackKeyPressed()) {
 			attackBehavior.performBehavior();
 		}
+	}
+	
+	private void doWalkSprites() {
+		if(player.getWalkSprites() != null) {
+			player.getCharacterView().setViewport(player.getWalkSprites().getSpriteBlock());
+		}
+		else {
+			// FOR DEBUG
+			Debug.printErrorMessage(this.getClass(), "Character", player.getName() + " does not have sprites for walking");
+		}
+	}
+
+	public int getRightScale() {
+		return rightScale;
+	}
+
+	public int getLeftScale() {
+		return leftScale;
+	}
+
+	public void setRightScale(int rightScale) {
+		this.rightScale = rightScale;
+	}
+
+	public void setLeftScale(int leftScale) {
+		this.leftScale = leftScale;
 	}
 }

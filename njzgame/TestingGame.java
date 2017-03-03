@@ -11,6 +11,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import njzgame.behaviors.PlayerBehavior;
 import njzgame.behaviors.SideScrollingBehavior;
+import njzgame.characters.Pepe;
 import njzgame.interfaces.Updatable;
 import njzgame.settings.Controller;
 import njzgame.settings.Settings;
@@ -31,10 +32,13 @@ public class TestingGame extends Game {
 	public void start(Stage primaryStage) throws Exception {
 		
 		
-		lenny = new Character("lenny", 1);
+		lenny = new Pepe("lenny", 1);
 		PlayerBehavior playerBehavior = new PlayerBehavior(lenny);
+		playerBehavior.setLeftScale(1);
+		playerBehavior.setRightScale(-1);
 		lenny.setCharacterBehavior(playerBehavior);
 		lenny.setTranslateY(Settings.WINDOW_HEIGHT - 100);
+		lenny.setStyle("-fx-border-style: solid");
 		
 		Controller.getInstance().connectControlsWith(lenny);
 		map = new Map(lenny, new ImageView(), new ImageView(STAGE_TEST_IMG));

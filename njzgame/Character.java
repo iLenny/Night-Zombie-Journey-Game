@@ -1,10 +1,11 @@
 package njzgame;
 
 
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import njzgame.interfaces.Behavior;
 import njzgame.interfaces.Updatable;
+import njzgame.tools.SpriteHandler;
 
 /*
  *  CODED BY: Leibniz H. Berihuete
@@ -21,8 +22,16 @@ public class Character extends Pane implements Updatable {
 	private int attackPower;
 	private int speed;
 	
+	//ImageView
+	private ImageView characterView;
+	
 	// Behavior
 	private Behavior characterBehavior;
+	
+	private SpriteHandler attackSprites;
+	private SpriteHandler walkSprites;
+	private SpriteHandler jumpSprites;
+	private SpriteHandler standingSprites;
 	
 
 	//===== CONSTRUCTOR =====//
@@ -33,7 +42,8 @@ public class Character extends Pane implements Updatable {
 		hp = 100;
 		attackPower = 10;
 		speed = 5;
-		this.getChildren().add(new Rectangle(50,50));
+		characterView = new ImageView();
+		this.getChildren().addAll(characterView);
 	}
 	
 	
@@ -74,6 +84,26 @@ public class Character extends Pane implements Updatable {
 	public Behavior getCharacterBehavior() {
 		return characterBehavior;
 	}
+	
+	public ImageView getCharacterView() {
+		return characterView;
+	}
+	
+	public SpriteHandler getAttackSprites() {
+		return attackSprites;
+	}
+
+	public SpriteHandler getWalkSprites() {
+		return walkSprites;
+	}
+
+	public SpriteHandler getJumpSprites() {
+		return jumpSprites;
+	}
+
+	public SpriteHandler getStandingSprites() {
+		return standingSprites;
+	}
 
 	
 	// ========= SETTERS =========//
@@ -99,6 +129,27 @@ public class Character extends Pane implements Updatable {
 	
 	public void setCharacterBehavior(Behavior characterBehavior) {
 		this.characterBehavior = characterBehavior;
+	}
+
+	public void setCharacterView(ImageView characterView) {
+		this.characterView = characterView;
+	}
+
+	public void setAttackSprites(SpriteHandler attackSprites) {
+		this.attackSprites = attackSprites;
+	}
+
+	public void setWalkSprites(SpriteHandler walkSprites) {
+		this.walkSprites = walkSprites;
+	}
+
+	public void setJumpSprites(SpriteHandler jumpSprites) {
+		this.jumpSprites = jumpSprites;
+	}
+
+	public void setStandingSprites(SpriteHandler standingSprites) {
+		characterView.setViewport(standingSprites.getSpriteBlock());
+		this.standingSprites = standingSprites;
 	}
 
 	
