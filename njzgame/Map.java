@@ -19,9 +19,11 @@ public class Map extends Pane implements Updatable{
 	private Character player;
 	private ImageView backgroundView;
 	private ImageView stageView;
-	private ArrayList<Node> objectList;
-	
-	
+	private ArrayList<Node> objectList; 
+	private double gravityRate = 1; // earth gravity;
+
+
+
 	/**
 	 *  CONSTRUCTOR (Character)
 	 *  @param player: it needs to know what player 
@@ -129,6 +131,10 @@ public class Map extends Pane implements Updatable{
 		return objectList;
 	}
 	
+	public double getGravityRate() {
+		return gravityRate;
+	}
+	
 
 	// =========== SETTERS ============== //
 	public void setPlayer(Character player) {
@@ -145,5 +151,15 @@ public class Map extends Pane implements Updatable{
 
 	public void setStageView(ImageView stageView) {
 		this.stageView = stageView;
+	}
+
+
+
+
+
+
+
+	public void setGravityRate(double gravityRate) {
+		this.gravityRate = gravityRate;
 	}
 }
