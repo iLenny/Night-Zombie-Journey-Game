@@ -37,7 +37,8 @@ public class TestingGame extends Game {
 		playerBehavior.setLeftScale(1);
 		playerBehavior.setRightScale(-1);
 		lenny.setCharacterBehavior(playerBehavior);
-		lenny.setTranslateY(Settings.WINDOW_HEIGHT - 100);
+		lenny.setTranslateY(Settings.WINDOW_HEIGHT*0.38);
+		lenny.setTranslateX(100);
 		lenny.setStyle("-fx-border-style: solid");
 		
 		Controller.getInstance().connectControlsWith(lenny);
