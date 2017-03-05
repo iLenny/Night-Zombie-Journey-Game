@@ -33,6 +33,9 @@ public class Character extends Pane implements Updatable {
 	private SpriteHandler jumpSprites;
 	private SpriteHandler standingSprites;
 	
+	// FLAGS
+	private boolean onGround = false;
+	
 
 	//===== CONSTRUCTOR =====//
 	public Character(String name, int level) {
@@ -104,6 +107,10 @@ public class Character extends Pane implements Updatable {
 	public SpriteHandler getStandingSprites() {
 		return standingSprites;
 	}
+	
+	public boolean isOnGround() {
+		return onGround;
+	}
 
 	
 	// ========= SETTERS =========//
@@ -150,6 +157,10 @@ public class Character extends Pane implements Updatable {
 	public void setStandingSprites(SpriteHandler standingSprites) {
 		characterView.setViewport(standingSprites.getSpriteBlock());
 		this.standingSprites = standingSprites;
+	}
+
+	public void setOnGround(boolean onGround) {
+		this.onGround = onGround;
 	}
 
 	
