@@ -3,7 +3,10 @@ package njzgame;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import njzgame.interfaces.Behavior;
+import njzgame.interfaces.Landable;
 import njzgame.interfaces.Updatable;
 import njzgame.tools.SpriteHandler;
 
@@ -12,7 +15,7 @@ import njzgame.tools.SpriteHandler;
  *  PURPOSE: To represent a character of the game
  *  INPUT: name, level, hp, attackPower, speed
  */
-public class Character extends Pane implements Updatable {
+public class Character extends Pane implements Updatable, Landable {
 	// IDENTITY:
 	private String name;
 	private int level;
@@ -21,21 +24,31 @@ public class Character extends Pane implements Updatable {
 	private int hp;
 	private int attackPower;
 	private int speed;
+	private int jumpPower;
 	
 	//ImageView
 	private ImageView characterView;
 	
+	// bodyParts -- these will be used for collision purposes
+	protected Rectangle head; 
+	protected Rectangle body;
+	protected Rectangle feet;
+	
 	// Behavior
 	private Behavior characterBehavior;
 	
+	// Sprites
 	private SpriteHandler attackSprites;
 	private SpriteHandler walkSprites;
 	private SpriteHandler jumpSprites;
 	private SpriteHandler standingSprites;
 	
-	// FLAGS
-	private boolean onGround = false;
+	// Gravity
+	private double exertedGravity = 0; // ExertedGravity on Player;
 	
+	// flag
+	private boolean allowToJump = false;
+	private boolean falling = true;
 
 	//===== CONSTRUCTOR =====//
 	public Character(String name, int level) {
@@ -45,8 +58,19 @@ public class Character extends Pane implements Updatable {
 		hp = 100;
 		attackPower = 10;
 		speed = 5;
+		jumpPower = 15;
 		characterView = new ImageView();
-		this.getChildren().addAll(characterView);
+		
+		head = new Rectangle(10, 10);
+		body = new Rectangle(10, 10);
+		feet = new Rectangle(10, 10);
+		
+		head.setFill(Color.AQUA);
+		body.setFill(Color.BLUEVIOLET);
+		feet.setFill(Color.CRIMSON);
+		
+		
+		this.getChildren().addAll(characterView, head, body, feet);
 	}
 	
 	
@@ -108,9 +132,18 @@ public class Character extends Pane implements Updatable {
 		return standingSprites;
 	}
 	
-	public boolean isOnGround() {
-		return onGround;
+
+	public int getJumpPower() {
+		return jumpPower;
 	}
+
+	
+	@Override
+	public double getExertedGravity() {
+		return exertedGravity;
+	}
+	
+
 
 	
 	// ========= SETTERS =========//
@@ -146,6 +179,54 @@ public class Character extends Pane implements Updatable {
 		this.attackSprites = attackSprites;
 	}
 
+	public Rectangle getHead() {
+		return head;
+	}
+
+
+
+	public Rectangle getBody() {
+		return body;
+	}
+
+
+
+	public Rectangle getFeet() {
+		return feet;
+	}
+
+
+
+	public void setHead(Rectangle head) {
+		this.head = head;
+	}
+
+
+
+	public void setBody(Rectangle body) {
+		this.body = body;
+	}
+
+
+
+	public void setFeet(Rectangle feet) {
+		this.feet = feet;
+	}
+
+
+
+	public boolean isFalling() {
+		return falling;
+	}
+
+
+
+	public void setFalling(boolean falling) {
+		this.falling = falling;
+	}
+
+
+
 	public void setWalkSprites(SpriteHandler walkSprites) {
 		this.walkSprites = walkSprites;
 	}
@@ -157,11 +238,47 @@ public class Character extends Pane implements Updatable {
 	public void setStandingSprites(SpriteHandler standingSprites) {
 		characterView.setViewport(standingSprites.getSpriteBlock());
 		this.standingSprites = standingSprites;
+		
+		// Since gettings standingSprites for first time..
+		head.setTranslateX(characterView.getViewport().getMaxX()/2);
+		body.setTranslateX(characterView.getViewport().getMaxX()/2);
+		body.setTranslateY(characterView.getViewport().getMaxY()/2);
+		feet.setTranslateX(characterView.getViewport().getMaxX()/2);
+		feet.setTranslateY(characterView.getViewport().getMaxY());
+	}
+	
+	public void setJumpPower(int jumpPower) {
+		this.jumpPower = jumpPower;
+	}
+	
+	@Override
+	public void setExertedGravity(double exertedGravity) {
+		this.exertedGravity = exertedGravity;
+	}
+	
+	public boolean isAllowToJump() {
+		return allowToJump;
 	}
 
-	public void setOnGround(boolean onGround) {
-		this.onGround = onGround;
+
+
+	public void setAllowToJump(boolean allowToJump) {
+		this.allowToJump = allowToJump;
 	}
+
+
+
+	public void showBodyParts(boolean flag) {
+		head.setVisible(flag);
+		body.setVisible(flag);
+		feet.setVisible(flag);
+	}
+
+
+
+
+
+
 
 	
 }
