@@ -14,6 +14,6 @@ public class Settings {
 	public static final KeyCode DEFAULT_ATTACK_KEY = KeyCode.CONTROL;
 	
 	// GAME SETTINGS
-	public static final double GRAVITY_RATE = 0.3;
+	public static double GRAVITY_RATE = 0.3;
 	public static double gravity = 0;
 }

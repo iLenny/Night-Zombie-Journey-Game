@@ -6,19 +6,40 @@ import njzgame.Character;
 import njzgame.TestingGame;
 import njzgame.tools.SpriteHandler;
 
+// JUST TESTING
 public class Pepe extends Character {
 	private static final Image PEPE_SPRITES_IMG = new Image(TestingGame.class.getResourceAsStream("images/pepe.png"));
 	
 	private static final Rectangle2D [] STAND_SPRITES = {
 			new Rectangle2D(0, 0, 58, 70),    // 1
-			new Rectangle2D(58, 0, 58, 70),   // 2
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
 			new Rectangle2D(0, 0, 58, 70),    // 1
 			new Rectangle2D(58, 0, 58, 70),   // 2
 			new Rectangle2D(0, 0, 58, 70),    // 1
 			new Rectangle2D(0, 0, 58, 70),    // 1
-			new Rectangle2D(58, 0, 58, 70),   // 2
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
 			new Rectangle2D(0, 0, 58, 70),    // 1
 			new Rectangle2D(58, 0, 58, 70),   // 2
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(58, 0, 58, 70),   // 2
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(58, 0, 58, 70),   // 2
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
+			new Rectangle2D(0, 0, 58, 70),    // 1
 			new Rectangle2D(0, 0, 58, 70),    // 1
 			new Rectangle2D(116, 0, 58, 70), // 3
 			new Rectangle2D(174, 0, 58, 70), // 4
@@ -55,9 +76,10 @@ public class Pepe extends Character {
 		head.setWidth(20);
 		head.setHeight(15);
 		body.setHeight(30);
+		feet.setHeight(5);
 		feet.setWidth(15);
 		
-		feet.setTranslateY(feet.getTranslateY()-10);
+		feet.setTranslateY(feet.getTranslateY()-5);
 		head.setTranslateY(head.getTranslateY()+7);
 		head.setTranslateX(head.getTranslateX()-5);
 		

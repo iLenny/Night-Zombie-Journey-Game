@@ -28,6 +28,8 @@ public class SideScrollingBehavior implements Behavior {
 	private double stageHeight;
 	private ArrayList<Node> objectList;
 	
+	private double playerOriginalY;
+	
 	// CONSTRUCTOR
 	public SideScrollingBehavior(Map map) {
 		this.map = map;
@@ -37,6 +39,7 @@ public class SideScrollingBehavior implements Behavior {
 		stageWidth = map.getStageViewWidth();
 		stageHeight = map.getStageViewHeight();
 		this.objectList = map.getObjectList();
+		playerOriginalY = player.getTranslateY();
 		
 	}
 	
@@ -90,9 +93,7 @@ public class SideScrollingBehavior implements Behavior {
 			moveEverythingToTheRight();
 		}
 		
-		if(playerY > 400) {
-			moveEverythingUp();
-		}
+		
 		
 		
 		

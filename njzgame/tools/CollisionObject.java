@@ -24,11 +24,18 @@ public class CollisionObject extends Rectangle {
 			}
 			
 			if(objToPush instanceof Character) {
-				((Character)objToPush).setAllowToJump(true);
 				
-				if(((Character)objToPush).getStandingSprites() != null) {
-					((Character)objToPush).getStandingSprites().reset();
+				if(!((Character)objToPush).isAllowToJump()) {
+					((Character)objToPush).setAllowToJump(true);
+					
+					if(((Character)objToPush).getStandingSprites() != null) {
+						((Character)objToPush).getStandingSprites().reset();
+						
+					}
 				}
+				
+				
+				
 				
 			}
 		}	
@@ -37,8 +44,8 @@ public class CollisionObject extends Rectangle {
 	}
 	
 	public void pushDown(Node objToCollide, Node objToPush,  double pushMagnitude) {
-		Bounds coBounds = this.sceneToLocal(this.getBoundsInLocal());
-		Bounds objBounds = objToCollide.sceneToLocal(objToCollide.getBoundsInLocal());
+		Bounds coBounds = this.localToScene(this.getBoundsInLocal());
+		Bounds objBounds = objToCollide.localToScene(objToCollide.getBoundsInLocal());
 		
 		if(coBounds.intersects(objBounds)) {
 			objToPush.setTranslateY(objToPush.getTranslateY() + pushMagnitude);
@@ -46,8 +53,8 @@ public class CollisionObject extends Rectangle {
 	}
 	
 	public void pushLEFT(Node objToCollide, Node objToPush,  double pushMagnitude) {
-		Bounds coBounds = this.sceneToLocal(this.getBoundsInLocal());
-		Bounds objBounds = objToCollide.sceneToLocal(objToCollide.getBoundsInLocal());
+		Bounds coBounds = this.localToScene(this.getBoundsInLocal());
+		Bounds objBounds = objToCollide.localToScene(objToCollide.getBoundsInLocal());
 		
 		if(coBounds.intersects(objBounds)) {
 			objToPush.setTranslateX(objToPush.getTranslateX() - pushMagnitude);
@@ -55,8 +62,8 @@ public class CollisionObject extends Rectangle {
 	}
 	
 	public void pushRIGHT(Node objToCollide, Node objToPush,  double pushMagnitude) {
-		Bounds coBounds = this.sceneToLocal(this.getBoundsInLocal());
-		Bounds objBounds = objToCollide.sceneToLocal(objToCollide.getBoundsInLocal());
+		Bounds coBounds = this.localToScene(this.getBoundsInLocal());
+		Bounds objBounds = objToCollide.localToScene(objToCollide.getBoundsInLocal());
 		
 		if(coBounds.intersects(objBounds)) {
 			objToPush.setTranslateX(objToPush.getTranslateX() + pushMagnitude);
