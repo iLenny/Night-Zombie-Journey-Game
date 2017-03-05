@@ -51,11 +51,25 @@ public class Pepe extends Character {
 		this.setStandingSprites(standSprites);
 		this.setWalkSprites(walkSprites);
 		this.setJumpSprites(jumpSprites);
+		
+		head.setWidth(20);
+		head.setHeight(15);
+		body.setHeight(30);
+		feet.setWidth(15);
+		
+		feet.setTranslateY(feet.getTranslateY()-10);
+		head.setTranslateY(head.getTranslateY()+7);
+		head.setTranslateX(head.getTranslateX()-5);
+		
+		this.setJumpPower(this.getJumpPower() + 1);
 	}
 	
 	@Override
 	public void update() {
 		super.update();
+		
 	}
+	
+	
 
 }

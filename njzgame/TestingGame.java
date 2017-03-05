@@ -15,17 +15,24 @@ import njzgame.characters.Pepe;
 import njzgame.interfaces.Updatable;
 import njzgame.settings.Controller;
 import njzgame.settings.Settings;
+import njzgame.tools.CollisionObject;
+import njzgame.tools.Debug;
 
 public class TestingGame extends Game {
-	private static final Image STAGE_TEST_IMG = new Image(TestingGame.class.getResourceAsStream("images/test-Stage.png"));
+	private static final Image STAGE_TEST_IMG = new Image(TestingGame.class.getResourceAsStream("images/backgroundtt.jpg"));
 	private Character lenny;
-	private Rectangle [] chs = new Rectangle[10];
+	private CollisionObject [] chs = new CollisionObject[10];
 	private Map map;
 	
 	@Override
 	public void update() {
 		lenny.update();
 		map.update();
+		for(int i = 0; i < chs.length; i++) {
+			chs[i].pushUP(lenny.getFeet(), lenny, lenny.getExertedGravity());
+		}
+		
+		Debug.printMessage(lenny.getClass(), "Lenny Gravity", lenny.getExertedGravity() + "");
 	}
 
 	@Override
@@ -39,21 +46,25 @@ public class TestingGame extends Game {
 		lenny.setCharacterBehavior(playerBehavior);
 		lenny.setTranslateY(Settings.WINDOW_HEIGHT*0.38);
 		lenny.setTranslateX(100);
-		lenny.setStyle("-fx-border-style: solid");
+		//lenny.setStyle("-fx-border-style: solid");
+		lenny.showBodyParts(false);
 		
 		Controller.getInstance().connectControlsWith(lenny);
+		ImageView stageView = new ImageView(STAGE_TEST_IMG);
+		
 		map = new Map(lenny, new ImageView(), new ImageView(STAGE_TEST_IMG));
 		SideScrollingBehavior ssBehavior = new SideScrollingBehavior(map);
 		map.setMapBehavior(ssBehavior);
 		
 		
 		Pane root = new Pane(map);
+		root.setStyle("-fx-background-color: WHITE");
 		
 		for(int i = 0; i < chs.length; i++) {
-			chs[i] = new Rectangle(100,100);
-			int red = new Random().nextInt(255);
-			int green = new Random().nextInt(255);
-			int blue = new Random().nextInt(255);
+			chs[i] = new CollisionObject(100,10);
+			int red = new Random().nextInt(100);
+			int green = new Random().nextInt(100);
+			int blue = new Random().nextInt(100);
 			
 			chs[i].setFill(Color.rgb(red, green, blue));
 			map.addObject(chs[i], 110 + i * 250, 300);

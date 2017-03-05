@@ -22,10 +22,10 @@ public class SideScrollingBehavior implements Behavior {
 	private ImageView backgroundView;
 	private ImageView stageView;
 	private Character player;
-	private double gravity = 0;
 
 
 	private double stageWidth;
+	private double stageHeight;
 	private ArrayList<Node> objectList;
 	
 	// CONSTRUCTOR
@@ -35,6 +35,7 @@ public class SideScrollingBehavior implements Behavior {
 		stageView = map.getStageView();
 		player = map.getPlayer();
 		stageWidth = map.getStageViewWidth();
+		stageHeight = map.getStageViewHeight();
 		this.objectList = map.getObjectList();
 		
 	}
@@ -52,15 +53,8 @@ public class SideScrollingBehavior implements Behavior {
 	
 	@Override
 	public void performBehavior() {
-		if(!player.isOnGround()) {
-			gravity+= map.getGravityRate();
-			player.setTranslateY(player.getTranslateY() + gravity);
-		}
-		else {
-			gravity = 0;
-		}
-		
-		
+		player.setExertedGravity(player.getExertedGravity()+ Settings.GRAVITY_RATE);
+		player.setTranslateY(player.getTranslateY() + player.getExertedGravity());		
 		
 		// We need the bounds to know their exact location
 		Bounds playerBounds = player.localToScene(player.getBoundsInLocal());
@@ -69,8 +63,11 @@ public class SideScrollingBehavior implements Behavior {
 		
 		// Get their X-location
 		double playerX = playerBounds.getMinX();
+		double playerY = playerBounds.getMinY();
 		double stageViewX = stageViewBounds.getMinX();
-		double endArea = -(stageWidth - Settings.WINDOW_WIDTH); 
+		double stageViewY = stageViewBounds.getMinY();
+		double endXArea = -(stageWidth - Settings.WINDOW_WIDTH); 
+		double endYArea = -(stageHeight - Settings.WINDOW_HEIGHT);
 		
 		// We only want the side-scrolling effect, when the player is moving side ways
 		// We need to know when user is pressing right or left key, therefore we need 
@@ -81,7 +78,7 @@ public class SideScrollingBehavior implements Behavior {
 		// player's x location is greater than RIGHT_OFFSET AND
 		// the player its not at the end of the stageView THEN
 		// Move everything to the left
-		if(controller.isMoveRightKeyPressed() && playerX > RIGHT_OFFSET && stageViewX > endArea) {
+		if(controller.isMoveRightKeyPressed() && playerX > RIGHT_OFFSET && stageViewX > endXArea) {
 			moveEverythingToTheLeft();
 		}
 		
@@ -92,6 +89,13 @@ public class SideScrollingBehavior implements Behavior {
 		else if(controller.isMoveLeftKeyPressed() && playerX < LEFT_OFFSET && stageViewX < 0) {
 			moveEverythingToTheRight();
 		}
+		
+		if(playerY > 400) {
+			moveEverythingUp();
+		}
+		
+		
+		
 	}
 	
 	
@@ -116,6 +120,30 @@ public class SideScrollingBehavior implements Behavior {
 		for(int i = 0; i < objectList.size(); i++) {
 			Node object = objectList.get(i);
 			object.setTranslateX(object.getTranslateX() + player.getSpeed());
+		}
+	}
+	
+	// MOVES EVERYTHING TO THE DOWN
+	private void moveEverythingDown() {
+		player.setTranslateY(player.getTranslateY() + player.getJumpPower());
+		stageView.setTranslateY(stageView.getTranslateY() + player.getJumpPower());
+		backgroundView.setTranslateY(backgroundView.getTranslateY() + player.getJumpPower()/3);
+		
+		for(int i = 0; i < objectList.size(); i++) {
+			Node object = objectList.get(i);
+			object.setTranslateY(object.getTranslateY() + player.getJumpPower());
+		}
+	}
+	
+	// MOVES EVERYTHING TO THE DOWN
+	private void moveEverythingUp() {
+		player.setTranslateY(player.getTranslateY() - player.getExertedGravity());
+		stageView.setTranslateY(stageView.getTranslateY() - player.getExertedGravity());
+		backgroundView.setTranslateY(backgroundView.getTranslateY() - player.getExertedGravity()/3);
+		
+		for(int i = 0; i < objectList.size(); i++) {
+			Node object = objectList.get(i);
+			object.setTranslateY(object.getTranslateY() - player.getExertedGravity());
 		}
 	}
 	

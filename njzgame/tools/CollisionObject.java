@@ -3,57 +3,69 @@ package njzgame.tools;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
-import njzgame.interfaces.Direction;
-import njzgame.interfaces.Updatable;
+import njzgame.interfaces.Landable;
+import njzgame.Character;
 
-public class CollisionObject extends Rectangle implements Updatable, Direction {
-	private int direction;
-	private Node objectToPush;
+public class CollisionObject extends Rectangle {
 	
-	public CollisionObject(double width, double height, Node objectToPush,  int direction) {
+	public CollisionObject(double width, double height) {
 		super(width, height);
-		this.objectToPush = objectToPush;
-		this.direction = direction;
 	}
 	
-
-	@Override
-	public void setDirection(int direction) {
-		this.direction = direction;
+	public void pushUP(Node objToCollide, Node objToPush,  double pushMagnitude) {
+		Bounds coBounds = this.localToScene(this.getBoundsInLocal());
+		Bounds objBounds = objToCollide.localToScene(objToCollide.getBoundsInLocal());
 		
-	}
-
-	@Override
-	public int getDirection() {
-		return direction;
-	}
-
-	@Override
-	public void update() {
-		Bounds coBounds = this.sceneToLocal(this.getBoundsInLocal());
-		Bounds objectBounds = objectToPush.sceneToLocal(objectToPush.getBoundsInLocal());
-		
-		if(coBounds.intersects(objectBounds)) {
-			switch(direction) {
-			case Direction.UP: 
-				
-				break;
-			case Direction.LEFT: 
-				break;
-			case Direction.RIGHT:
-				break;
-			case Direction.DOWN:
-				break;
+		if(coBounds.intersects(objBounds)) {
+			objToPush.setTranslateY(objToPush.getTranslateY() - pushMagnitude);
+			
+			if(objToPush instanceof Landable) {
+				((Landable)objToPush).setExertedGravity(0);
 			}
+			
+			if(objToPush instanceof Character) {
+				((Character)objToPush).setAllowToJump(true);
+				
+				if(((Character)objToPush).getStandingSprites() != null) {
+					((Character)objToPush).getStandingSprites().reset();
+				}
+				
+			}
+		}	
+		
+		
+	}
+	
+	public void pushDown(Node objToCollide, Node objToPush,  double pushMagnitude) {
+		Bounds coBounds = this.sceneToLocal(this.getBoundsInLocal());
+		Bounds objBounds = objToCollide.sceneToLocal(objToCollide.getBoundsInLocal());
+		
+		if(coBounds.intersects(objBounds)) {
+			objToPush.setTranslateY(objToPush.getTranslateY() + pushMagnitude);
+		}		
+	}
+	
+	public void pushLEFT(Node objToCollide, Node objToPush,  double pushMagnitude) {
+		Bounds coBounds = this.sceneToLocal(this.getBoundsInLocal());
+		Bounds objBounds = objToCollide.sceneToLocal(objToCollide.getBoundsInLocal());
+		
+		if(coBounds.intersects(objBounds)) {
+			objToPush.setTranslateX(objToPush.getTranslateX() - pushMagnitude);
+		}		
+	}
+	
+	public void pushRIGHT(Node objToCollide, Node objToPush,  double pushMagnitude) {
+		Bounds coBounds = this.sceneToLocal(this.getBoundsInLocal());
+		Bounds objBounds = objToCollide.sceneToLocal(objToCollide.getBoundsInLocal());
+		
+		if(coBounds.intersects(objBounds)) {
+			objToPush.setTranslateX(objToPush.getTranslateX() + pushMagnitude);
 		}
 		
+		
 	}
+	
 
-	public Node getObjectToPush() {
-		return objectToPush;
-	}
 
-	public void setObjectToPush(Node objectToPush) {
-		this.objectToPush = objectToPush;
-	}
+
 }

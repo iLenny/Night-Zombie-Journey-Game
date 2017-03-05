@@ -25,7 +25,7 @@ public class PlayerBehavior implements Behavior{
 	
 	//FLAGS
 	private boolean walking = false;
-	
+	private boolean jumping = false;
 	
 	
 	
@@ -34,7 +34,7 @@ public class PlayerBehavior implements Behavior{
 	public PlayerBehavior(Character player) {
 		this.player = player;
 		walkBehavior = new DefaultWalkBehavior(player);
-		jumpBehavior = new DefaultJumpBehavior();
+		jumpBehavior = new DefaultJumpBehavior(player);
 		attackBehavior = new DefaultAttackBehavior();
 		
 	}
@@ -56,7 +56,13 @@ public class PlayerBehavior implements Behavior{
 			}			
 			walkBehavior.performBehavior();
 			doWalkSprites();
-			player.getCharacterView().setScaleX(rightScale);
+			
+			player.setScaleX(rightScale);
+			
+//			player.getCharacterView().setScaleX(rightScale);
+//			player.getHead().setScaleX(rightScale);
+//			player.getBody().setScaleX(rightScale);
+//			player.getFeet().setScaleX(rightScale);
 			
 		}
 		
@@ -68,8 +74,12 @@ public class PlayerBehavior implements Behavior{
 			}
 			walkBehavior.performBehavior();
 			doWalkSprites();
-			player.getCharacterView().setScaleX(leftScale);
+			player.setScaleX(leftScale);
 			
+//			player.getCharacterView().setScaleX(leftScale);
+//			player.getHead().setScaleX(leftScale);
+//			player.getBody().setScaleX(leftScale);
+//			player.getFeet().setScaleX(leftScale);
 		}
 		else {
 			if(walking == true) {
@@ -80,19 +90,38 @@ public class PlayerBehavior implements Behavior{
 		}
 		
 		// RESPOND TO JUMP-KEY-PRESSED
-		if(controller.isJumpKeyPressed()) {
-			jumpBehavior.performBehavior();
+		if(controller.isJumpKeyPressed() && player.isAllowToJump()) {
+			player.setAllowToJump(false);
+			jumping = true;
+			((DefaultJumpBehavior)jumpBehavior).jumpReset();
+			
 		}
 		
 		// RESPOND TO ATTACK-KEY-PRESSED
 		if(controller.isAttackKeyPressed()) {
 			attackBehavior.performBehavior();
 		}
+		
+		
+		if(jumping && !player.isAllowToJump()) {
+			jumpBehavior.performBehavior();
+			doJumpSprites();
+		}
 	}
 	
 	private void doWalkSprites() {
 		if(player.getWalkSprites() != null) {
 			player.getCharacterView().setViewport(player.getWalkSprites().getSpriteBlock());
+		}
+		else {
+			// FOR DEBUG
+			Debug.printErrorMessage(this.getClass(), "Character", player.getName() + " does not have sprites for walking");
+		}
+	}
+	
+	private void doJumpSprites() {
+		if(player.getJumpSprites() != null) {
+			player.getCharacterView().setViewport(player.getJumpSprites().getSpriteBlock());
 		}
 		else {
 			// FOR DEBUG
