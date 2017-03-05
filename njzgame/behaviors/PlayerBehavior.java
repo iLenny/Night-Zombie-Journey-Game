@@ -72,8 +72,11 @@ public class PlayerBehavior implements Behavior{
 			
 		}
 		else {
-			walking = false;
-			player.getStandingSprites().reset();
+			if(walking == true) {
+				walking = false;
+				player.getStandingSprites().reset();
+			}
+			
 		}
 		
 		// RESPOND TO JUMP-KEY-PRESSED
