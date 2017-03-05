@@ -22,6 +22,7 @@ public class SideScrollingBehavior implements Behavior {
 	private ImageView backgroundView;
 	private ImageView stageView;
 	private Character player;
+	private double gravity = 0;
 
 
 	private double stageWidth;
@@ -51,6 +52,15 @@ public class SideScrollingBehavior implements Behavior {
 	
 	@Override
 	public void performBehavior() {
+		if(!player.isOnGround()) {
+			gravity+= map.getGravityRate();
+			player.setTranslateY(player.getTranslateY() + gravity);
+		}
+		else {
+			gravity = 0;
+		}
+		
+		
 		
 		// We need the bounds to know their exact location
 		Bounds playerBounds = player.localToScene(player.getBoundsInLocal());
