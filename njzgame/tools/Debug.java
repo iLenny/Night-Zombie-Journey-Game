@@ -7,6 +7,6 @@ public class Debug {
 	}
 	
 	public static void printMessage(Class<?> classObject, String name, String message) {
-		System.out.println("ERROR FROM CLASS: " +classObject.getSimpleName()+ ": " + name + ": " + message);
+		System.out.println("FROM CLASS: " +classObject.getSimpleName()+ ": " + name + ": " + message);
 	}
 }
