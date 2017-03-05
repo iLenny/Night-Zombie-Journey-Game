@@ -3,16 +3,21 @@ package njzgame;
 import java.text.DecimalFormat;
 import java.util.Random;
 
+import javafx.animation.FadeTransition;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import njzgame.behaviors.PlayerBehavior;
 import njzgame.behaviors.SideScrollingBehavior;
 import njzgame.characters.Pepe;
@@ -21,9 +26,11 @@ import njzgame.settings.Controller;
 import njzgame.settings.Settings;
 import njzgame.tools.CollisionObject;
 import njzgame.tools.Debug;
+import njzgame.tools.MenuButton;
 
 
 // JUST TESTING...NOT MEANT TO BE MAIN
+// THE CODE IS MESSY, IT IS USED JUST TO TEST NEW FEATURES AS SOON AS POSSIBLE
 public class TestingGame extends Game {
 	private static final DecimalFormat FORMAT  = new DecimalFormat("#0.00");
 	private static final Image STAGE_TEST_IMG = new Image(TestingGame.class.getResourceAsStream("images/backgroundtt.jpg"));
@@ -38,6 +45,8 @@ public class TestingGame extends Game {
 	private Label gravityIndicator;
 	
 	private Map map;
+	
+	private MenuButton button;
 	
 	@Override
 	public void update() {
@@ -62,7 +71,8 @@ public class TestingGame extends Game {
 		boxU.pushUP(lenny.getFeet(), lenny, lenny.getExertedGravity());
 		boxR.pushRIGHT(lenny.body, lenny, lenny.getSpeed());
 		boxL.pushLEFT(lenny.body, lenny, lenny.getSpeed());
-		gravityIndicator.setText("Gravity force exerted on player: " + FORMAT.format(lenny.getExertedGravity()));
+		double gravity = lenny.getExertedGravity(); 
+		gravityIndicator.setText("Gravity force exerted on player: " + FORMAT.format(gravity));
 	}
 
 	@Override
@@ -148,6 +158,7 @@ public class TestingGame extends Game {
 		gravityIndicator.setFont(Font.font(15));
 		root.getChildren().addAll(label, gravityIndicator);
 		
+		
 		root.setOnKeyPressed(e-> {
 			if(e.getCode().equals(KeyCode.Y)) {
 				if(yPressed) {
@@ -165,11 +176,13 @@ public class TestingGame extends Game {
 		});
 	}
 	
+	
 	private void update(Updatable...objects) {
 		for(int i = 0; i < objects.length; i++) {
 			objects[i].update(); 
 		}
 	}
+	
 	
 	public static void main(String [] args) {
 		launch(args);

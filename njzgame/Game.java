@@ -25,6 +25,7 @@ public abstract class Game extends Application implements Updatable {
 	private double fps;
 	private int delayCount = 0;
 	private Parent root;
+	private boolean paused = false;
 	
 	// CONSTRUCTOR
 	public Game() {
@@ -90,12 +91,21 @@ public abstract class Game extends Application implements Updatable {
 	}
 	
 	//====== GAMELOOP CONTRONS ======//
+	public boolean isPaused() {
+		return paused;
+	}
+	
+	/* *********************
+	 *   Gameloop Controls:
+	 * *********************/
 	public void startGameloop() {
 		gameloop.start();
+		paused = false;
 	}
 	
 	public void stopGameloop() {
 		gameloop.stop();
+		paused = true;
 	}
 	
 	//======== GETTERS ========//
