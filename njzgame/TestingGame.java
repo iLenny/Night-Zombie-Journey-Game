@@ -56,7 +56,7 @@ public class TestingGame extends Game {
 			int blue = new Random().nextInt(255);
 			
 			chs[i].setFill(Color.rgb(red, green, blue));
-			map.addObject(chs[i], 100 + i * 250, 300);
+			map.addObject(chs[i], 110 + i * 250, 300);
 		}
 		Scene scene = new Scene(root, Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT);
 		primaryStage.setScene(scene);
