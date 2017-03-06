@@ -15,8 +15,6 @@ import njzgame.Character;
 public class PlayerBehavior implements Behavior{
 	private Controller controller = Controller.getInstance();
 	private Character player;
-	private int rightScale = 1;
-	private int leftScale = -1;
 	
 	// BEHAVIORS:
 	private Behavior attackBehavior;
@@ -57,7 +55,7 @@ public class PlayerBehavior implements Behavior{
 			walkBehavior.performBehavior();
 			doWalkSprites();
 			
-			player.setScaleX(rightScale);
+			player.getCharacterView().setScaleX(player.getRightScale());
 			
 //			player.getCharacterView().setScaleX(rightScale);
 //			player.getHead().setScaleX(rightScale);
@@ -74,7 +72,7 @@ public class PlayerBehavior implements Behavior{
 			}
 			walkBehavior.performBehavior();
 			doWalkSprites();
-			player.setScaleX(leftScale);
+			player.getCharacterView().setScaleX(player.getLeftScale());
 			
 //			player.getCharacterView().setScaleX(leftScale);
 //			player.getHead().setScaleX(leftScale);
@@ -100,6 +98,7 @@ public class PlayerBehavior implements Behavior{
 		// RESPOND TO ATTACK-KEY-PRESSED
 		if(controller.isAttackKeyPressed()) {
 			attackBehavior.performBehavior();
+			doAttackSprites();
 		}
 		
 		
@@ -125,23 +124,17 @@ public class PlayerBehavior implements Behavior{
 		}
 		else {
 			// FOR DEBUG
-			Debug.printErrorMessage(this.getClass(), "Character", player.getName() + " does not have sprites for walking");
+			Debug.printErrorMessage(this.getClass(), "Character", player.getName() + " does not have sprites for jump");
 		}
 	}
-
-	public int getRightScale() {
-		return rightScale;
-	}
-
-	public int getLeftScale() {
-		return leftScale;
-	}
-
-	public void setRightScale(int rightScale) {
-		this.rightScale = rightScale;
-	}
-
-	public void setLeftScale(int leftScale) {
-		this.leftScale = leftScale;
+	
+	private void doAttackSprites() {
+		if(player.getAttackSprites() != null) {
+			player.getCharacterView().setViewport(player.getAttackSprites().getSpriteBlock());
+		}
+		else {
+			// FOR DEBUG
+			Debug.printErrorMessage(this.getClass(), "Character", player.getName() + " does not have sprites for attack");
+		}
 	}
 }

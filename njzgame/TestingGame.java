@@ -33,7 +33,8 @@ import njzgame.tools.MenuButton;
 // THE CODE IS MESSY, IT IS USED JUST TO TEST NEW FEATURES AS SOON AS POSSIBLE
 public class TestingGame extends Game {
 	private static final DecimalFormat FORMAT  = new DecimalFormat("#0.00");
-	private static final Image STAGE_TEST_IMG = new Image(TestingGame.class.getResourceAsStream("images/backgroundtt.jpg"));
+	private static final Image BG_TEST_IMG = new Image(TestingGame.class.getResourceAsStream("images/backgroundtt.jpg"));
+	private static final Image MAP_TEST_IMG = new Image(TestingGame.class.getResourceAsStream("images/mapSample.png"));
 	private Character lenny;
 	private CollisionObject [] chs = new CollisionObject[10];
 	private CollisionObject [] cD = new CollisionObject[10];
@@ -81,8 +82,6 @@ public class TestingGame extends Game {
 		
 		lenny = new Pepe("lenny", 1);
 		PlayerBehavior playerBehavior = new PlayerBehavior(lenny);
-		playerBehavior.setLeftScale(1);
-		playerBehavior.setRightScale(-1);
 		lenny.setCharacterBehavior(playerBehavior);
 		lenny.setTranslateY(Settings.WINDOW_HEIGHT*0.38);
 		lenny.setTranslateX(100);
@@ -90,9 +89,8 @@ public class TestingGame extends Game {
 		
 		gravityIndicator = new Label("Gravity force exerted on player: " + lenny.getExertedGravity());
 		Controller.getInstance().connectControlsWith(lenny);
-		ImageView stageView = new ImageView(STAGE_TEST_IMG);
-		
-		map = new Map(lenny, new ImageView(), new ImageView(STAGE_TEST_IMG));
+			
+		map = new Map(lenny, new ImageView(BG_TEST_IMG), new ImageView(MAP_TEST_IMG));
 		SideScrollingBehavior ssBehavior = new SideScrollingBehavior(map);
 		map.setMapBehavior(ssBehavior);
 		
@@ -128,7 +126,8 @@ public class TestingGame extends Game {
 			map.addObject(sD[i], 350 - 100 * i , 50 * i + 358);
 			map.addObject(new Rectangle(100,10), 350 - 100 * i , 50 * i + 350);
 		}
-		floor = new CollisionObject(1000, 300);
+		floor = new CollisionObject(map.getStageViewWidth(), 50);
+		floor.setVisible(false);
 		leftwall = new CollisionObject(20, 1000);
 		rightwall = new CollisionObject(20, 1000);
 		Rectangle box = new Rectangle(100, 100);
@@ -136,10 +135,9 @@ public class TestingGame extends Game {
 		boxL = new CollisionObject(2, 100);
 		boxU = new CollisionObject(100, 2);
 		
-		map.addObject(floor, 0, 500);
+		map.addObject(floor, 0, 550);
 		map.addObject(leftwall, -15, 0);
 		map.addObject(rightwall, map.getStageViewWidth(), 0);
-		map.addObject(box, 350, 450);
 		map.addObject(boxR, 448, 450);
 		map.addObject(boxL, 352, 450);
 		map.addObject(boxU, 350, 450);

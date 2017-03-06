@@ -34,6 +34,10 @@ public class Character extends Pane implements Updatable, Landable {
 	protected Rectangle body;
 	protected Rectangle feet;
 	
+	//Scale
+	protected int rightScale = 1;
+	protected int leftScale = -1;
+	
 	// Behavior
 	private Behavior characterBehavior;
 	
@@ -48,6 +52,7 @@ public class Character extends Pane implements Updatable, Landable {
 	
 	// flag
 	private boolean allowToJump = false;
+	private boolean allowToAttack = true;
 	private boolean falling = true;
 
 	//===== CONSTRUCTOR =====//
@@ -171,6 +176,30 @@ public class Character extends Pane implements Updatable, Landable {
 		this.characterBehavior = characterBehavior;
 	}
 
+	public int getRightScale() {
+		return rightScale;
+	}
+
+
+
+	public int getLeftScale() {
+		return leftScale;
+	}
+
+
+
+	public void setRightScale(int rightScale) {
+		this.rightScale = rightScale;
+	}
+
+
+
+	public void setLeftScale(int leftScale) {
+		this.leftScale = leftScale;
+	}
+
+
+
 	public void setCharacterView(ImageView characterView) {
 		this.characterView = characterView;
 	}
@@ -272,6 +301,18 @@ public class Character extends Pane implements Updatable, Landable {
 		head.setVisible(flag);
 		body.setVisible(flag);
 		feet.setVisible(flag);
+	}
+
+
+
+	public boolean isAllowToAttack() {
+		return allowToAttack;
+	}
+
+
+
+	public void setAllowToAttack(boolean allowToAttack) {
+		this.allowToAttack = allowToAttack;
 	}
 
 
